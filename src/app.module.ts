@@ -17,10 +17,10 @@ import { UserModule } from './user/user.module';
 // Importa el módulo de usuarios (contiene entidad, servicio y controlador de usuarios)
 
 // -------------------- REDIS --------------------
-import { RedisProvider } from './redis.provider';  
-// Provider que crea la conexión con Redis
-// Permite que cualquier servicio de la app use Redis
-// ----------------------------------------------
+import { RedisModule } from './redis/redis.module';  
+// Importamos RedisModule en lugar de RedisProvider/RedisService directamente.
+// Esto hace que Redis quede encapsulado y reutilizable.
+// ------------------------------------------------
 
 @Module({
   imports: [
@@ -57,19 +57,23 @@ import { RedisProvider } from './redis.provider';
 
     UserModule, 
     // Módulo que encapsula todo lo relacionado a usuarios (entidad, servicio, controlador)
+
+    RedisModule, 
+    // 🚀 Importante: al importar RedisModule, toda la aplicación ya puede
+    // usar RedisService sin tener que registrar RedisProvider/RedisService manualmente.
+    // Esto mantiene el código más limpio, organizado y modular.
   ],
   controllers: [AppController],  
   // Registra los controladores de este módulo
 
   providers: [
     AppService,  
-    // Registra los servicios de este módulo
-
-    // -------------------- REDIS --------------------
-    RedisProvider,  
-    // Este provider permite usar Redis en cualquier servicio de la app
-    // ----------------------------------------------
+    // Servicio principal de la aplicación
+    // ❌ Ya no es necesario poner aquí RedisProvider o RedisService
+    // porque eso ya está incluido en RedisModule
   ],
 })
 export class AppModule {}  
 // Define el módulo principal de la aplicación
+// 👉 Su importancia: es el "punto de entrada" de todos los demás módulos.
+// Ahora incluye PostgreSQL (base de datos relacional) y Redis (cache/almacenamiento rápido).
