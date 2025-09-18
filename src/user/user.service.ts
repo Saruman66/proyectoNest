@@ -31,13 +31,12 @@ export class UserService {
     private readonly redisService: RedisService, // Inyectamos RedisService para poder usar cache
   ) {}
 
-  async create(name: string): Promise<User> {
-    // Método para crear un nuevo usuario
-    // - Recibe un nombre
-    // - Lo guarda en la base de datos
-    // - Devuelve el usuario recién creado
-
-    const user = this.userRepository.create({ name }); 
+ async create(email: string, password: string): Promise<User> {
+  // Método para crear un nuevo usuario
+  // - Recibe email y password
+  // - Lo guarda en la base de datos
+  // - Devuelve el usuario recién creado
+    const user = this.userRepository.create({ email, password }); 
     // Crea un nuevo objeto User en memoria (todavía no lo guarda en DB)
 
     const savedUser = await this.userRepository.save(user); 

@@ -39,14 +39,16 @@ export class UserController {
   // Inyectamos UserService para poder usar sus métodos
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  // Define un endpoint POST en "/users"
-  // Sirve para crear un nuevo usuario
-  create(@Body('name') name: string): Promise<User> {
-    // @Body('name') → extrae el campo "name" del cuerpo de la petición
-    // Llama a UserService.create(name) para insertar el usuario
-    return this.userService.create(name);
-  }
+@Post()
+// Define un endpoint POST en "/users"
+// Sirve para crear un nuevo usuario
+create(
+  @Body('email') email: string,
+  @Body('password') password: string,
+): Promise<User> {
+  // Ahora pasamos email y password al servicio
+  return this.userService.create(email, password);
+}
 
   @Get()
   // Define un endpoint GET en "/users"
@@ -65,3 +67,21 @@ export class UserController {
 // - GET /users → Devuelve usuarios; primero revisa Redis (si está activado),
 //   y si no, consulta PostgreSQL, guardando en cache para futuras llamadas.
 // ---------------------------------------------------------------
+
+
+
+
+// ------------------- POSTMAN  --------------------------------------------
+
+// La URL http://localhost:3000/users
+
+// localhost:3000 → tu aplicación NestJS está corriendo localmente en el puerto 3000.
+
+// /users → ruta que definimos en @Controller('users') en user.controller.ts.
+
+// Cuando hacemos un POST a esa URL, NestJS dirige la petición al método:
+
+// create(@Body('email') email: string, @Body('password') password: string)
+
+
+// Es decir, el controlador recibe la petición y llama al servicio para crear un usuario.

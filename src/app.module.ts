@@ -77,3 +77,6 @@ export class AppModule {}
 // Define el módulo principal de la aplicación
 // 👉 Su importancia: es el "punto de entrada" de todos los demás módulos.
 // Ahora incluye PostgreSQL (base de datos relacional) y Redis (cache/almacenamiento rápido).
+
+
+// Esto significa que cualquier entidad que registres en un módulo con TypeOrmModule.forFeature([Entidad]) se creará automáticamente en la base de datos, gracias a synchronize: true.
